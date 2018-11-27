@@ -2,8 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-layout-header class="no-shadow">
       <q-toolbar
-        color="white"
-        class="text-grey-10"
+        color="grey-9"
       >
         <q-btn
           flat
@@ -54,7 +53,7 @@
       </q-list>
     </q-layout-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-grey-2">
       <router-view />
     </q-page-container>
 
@@ -66,14 +65,19 @@ import { openURL } from 'quasar'
 
 export default {
   name: 'MyLayout',
+
   data () {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
+
   methods: {
-    openURL
+
+    openURL,
+
   }
+
 }
 </script>
 
