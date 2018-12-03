@@ -61,7 +61,7 @@
                 type="text"
                 color="white"
                 inverted
-                placeholder="Código"
+                placeholder="Nome"
                 class="text-black"
               />
               <div class="text-white q-pt-sm">
@@ -72,7 +72,7 @@
                 type="text"
                 color="white"
                 inverted
-                placeholder="Código"
+                placeholder="Email"
                 class="text-black"
               />
               <div class="text-white q-pt-sm">
