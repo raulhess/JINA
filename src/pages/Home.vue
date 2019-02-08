@@ -1,4 +1,9 @@
 <template>
+  <q-page class="column fit">
+    <div class="col q-pa-md">
+       Seja bem vindo ao aplicativo da Juventude INA!
+    </div>
+  </q-page>
   <!--q-page class="column fit">
     <div class="col" style="height: 100px;">
       Jumbotron
@@ -60,8 +65,6 @@
         </div>
     </div>
   </q-page -->
-  <q-page class="column fit">
-  </q-page>
 </template>
 
 <style>
@@ -69,6 +72,13 @@
 
 <script>
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  preFetch ({ store, redirect }) {
+    store.state.$firebase.auth().onAuthStateChanged(function(user) {
+      if(!user) {
+        redirect('/')
+      }
+    })
+  }
 }
 </script>

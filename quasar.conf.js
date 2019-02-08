@@ -34,39 +34,7 @@ module.exports = function (ctx) {
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
-      components: [
-        'QLayout',
-        'QLayoutHeader',
-        'QLayoutFooter',
-        'QLayoutDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QListHeader',
-        'QItem',
-        'QItemMain',
-        'QItemSide',
-        'QTabs',
-        'QTab',
-        'QTabPane',
-        'QRouteTab',
-        'QInput',
-        'QModal',
-      ],
-      directives: [
-        'Ripple',
-        'CloseOverlay'
-      ],
-      // Quasar plugins
-      plugins: [
-        'Notify'
-      ]
-      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
+      all: true,
     },
     // animations: 'all' --- includes all animations
     animations: [],
@@ -138,6 +106,7 @@ module.exports = function (ctx) {
 
         // appId: 'quasar-app'
       }
-    }
+    },
+    preFetch: true,
   }
 }

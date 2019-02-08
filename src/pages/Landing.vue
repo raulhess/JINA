@@ -14,9 +14,9 @@
               color="white"
               class=" text-black"
               inverted
-              v-model="login"
+              v-model="email"
               type="text"
-              placeholder="Login"
+              placeholder="Email"
             />
             <q-input
               color="white"
@@ -31,7 +31,7 @@
               class="q-mt-sm full-width"
               color="orange-8"
               label="Login"
-              to="/Home"
+              @click="login"
             />
 
             <q-btn
@@ -53,8 +53,8 @@
               <div class="text-white q-pb-md" style="font-size: 26px;">
                 Registrar
               </div>
-              <div class="text-white">
-                Nome Completo:
+              <div class="text-white" style="text-align: left;">
+                Nome Completo
               </div>
               <q-input
                 v-model="registerFullname"
@@ -64,8 +64,8 @@
                 placeholder="Nome"
                 class="text-black"
               />
-              <div class="text-white q-pt-sm">
-                Email:
+              <div class="text-white q-pt-sm" style="text-align: left;">
+                Email
               </div>
               <q-input
                 v-model="registerEmail"
@@ -75,24 +75,21 @@
                 placeholder="Email"
                 class="text-black"
               />
-              <div class="text-white q-pt-sm">
-                Insira o código de convite:
+              <div class="text-white q-pt-sm" style="text-align: left;">
+                Senha
               </div>
               <q-input
-                v-model="registerCode"
-                type="text"
+                v-model="registerPassword"
+                type="password"
                 color="white"
                 inverted
-                placeholder="Código"
+                placeholder="Email"
                 class="text-black"
               />
-              <div class="text-grey-6 q-pt-sm" style="font-size: 11px;">
-                O nosso código de convite pode ser obtido nos cultos de sábado a noite, às 19:30hrs.
-              </div>
               <q-btn
-                class=" q-mt-sm full-width"
+                class=" q-mt-md full-width"
                 color="red-8"
-                label="Finalizar"
+                label="Criar conta"
                 @click="register"
               />
             </div>
@@ -117,25 +114,36 @@
 </style>
 
 <script>
+import firebase from 'firebase'
+
 export default {
 
   name: 'PageIndex',
 
   data (){
     return {
-      login: '',
+      email: '',
       password: '',
       orientation: '',
       registerFullname: '',
       registerEmail: '',
-      registerCode: '',
+      registerPassword: '',
       registerModel: false
     }
+  },
+
+  preFetch({ store, redirect }) {
+    store.state.$firebase.auth().onAuthStateChanged(function(user) {
+      if(user) {
+        redirect('/home')
+      }
+    })
   },
 
   mounted (){
     this.doOnOrientationChange()
     window.addEventListener("orientationchange", this.doOnOrientationChange);
+
   },
 
   dismounted (){
@@ -148,12 +156,20 @@ export default {
       this.orientation = ((screen.orientation.type.indexOf('portrait') === 0) ? 'portrait' : 'landscape')
     },
 
+    login (){
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+      });
+    },
+
     register (){
-      this.$q.notify({
-        message:`Não podemos processar o registro, pois o sistema de registramento ainda não está ativo.`,
-        timeout: 2000,
-        color: 'grey-8',
-        icon: 'warning',
+      firebase.auth().createUserWithEmailAndPassword(this.registerEmail, this.registerPassword).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
       })
     }
 
