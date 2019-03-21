@@ -1,7 +1,7 @@
 <template>
   <q-page class="column fit">
     <div class="col q-pa-md">
-       Seja bem vindo ao aplicativo da Juventude INA!
+       Seja bem vindo {{user}} ao aplicativo da Juventude INA!
     </div>
   </q-page>
   <!--q-page class="column fit">
@@ -72,7 +72,23 @@
 
 <script>
 export default {
+
   name: 'PageIndex',
+
+  data () {
+    return {
+      user: firebase.auth().currentUser,
+    }
+  },
+
+  mounted () {
+
+  },
+
+  methods: {
+
+  },
+
   preFetch ({ store, redirect }) {
     store.state.$firebase.auth().onAuthStateChanged(function(user) {
       if(!user) {

@@ -2,19 +2,20 @@
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
-    plugins: [
+    // app boot (/src/boot)
+    boot: [
       'axios'
     ],
     css: [
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
-      'material-icons' // optional, you are not bound to it
-      // 'ionicons',
-      // 'mdi',
-      // 'fontawesome'
+      'roboto-font',
+      'material-icons', // optional, you are not bound to it
+      // 'ionicons-v4',
+      'mdi-v3',
+      // 'fontawesome-v5',
+      // 'eva-icons'
     ],
     supportIE: false,
     build: {
@@ -34,7 +35,21 @@ module.exports = function (ctx) {
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
-      all: true,
+      components: [
+
+      ],
+      directives: [
+
+      ],
+      plugins: [
+
+      ],
+      config: {
+
+      },
+      iconSet: 'mdi-v3',
+      lang: 'pt-BR',
+      cssAddon: true
     },
     // animations: 'all' --- includes all animations
     animations: [],
