@@ -14,7 +14,7 @@ module.exports = function (ctx) {
       'material-icons', // optional, you are not bound to it
       // 'ionicons-v4',
       'mdi-v3',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons'
     ],
     supportIE: false,
@@ -36,10 +36,27 @@ module.exports = function (ctx) {
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
-
+        'QAvatar',
+        'QBtn',
+        'QDialog',
+        'QDrawer',
+        'QHeader',
+        'QIcon',
+        'QItem',
+        'QItemLabel',
+        'QItemSection',
+        'QImg',
+        'QInput',
+        'QLayout',
+        'QList',
+        'QPage',
+        'QPageContainer',
+        'QScrollArea',
+        'QToolbar',
+        'QToolbarTitle'
       ],
       directives: [
-
+        'ClosePopup'
       ],
       plugins: [
 

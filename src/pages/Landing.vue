@@ -11,25 +11,42 @@
 
           <div class="">
             <q-input
-              color="white"
-              class=" text-black"
-              inverted
+              color="primary"
+              class="q-mt-sm bg-white"
+              input-class=" text-black"
+              style="border-radius: 4px;"
+              outlined
+              dense
+              dark
               v-model="email"
               type="text"
               placeholder="Email"
             />
             <q-input
-              color="white"
-              class="text-black q-mt-sm"
-              inverted
+              color="primary"
+              class="q-mt-sm bg-white"
+              input-class=" text-black"
+              style="border-radius: 4px;"
+              outlined
+              dense
+              dark
               v-model="password"
-              type="password"
+              :type="isPwd ? 'password' : 'text'"
               placeholder="Senha"
-            />
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  color="orange-3"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+            </q-input>
 
             <q-btn
               class="q-mt-sm full-width"
-              color="orange-8"
+              color="primary"
               label="Login"
               @click="login"
             />
@@ -46,23 +63,26 @@
         <div class="absolute text-grey-6" style="bottom: 0; font-size: 11px; width: 100%; text-align: center;">
           Letrinhas pequenas podem ser inseridas aqui.
         </div>
-        <q-modal v-model="registerModel" class="bg-grey-10">
-          <q-modal-layout>
-
+        <q-dialog v-model="registerModel" maximized class="bg-grey-10">
+          <div>
             <div class=" bg-grey-10 fit q-pa-lg" style="font-size: 14px; text-align: center;">
               <div class="text-white q-pb-md" style="font-size: 26px;">
                 Registrar
               </div>
               <div class="text-white" style="text-align: left;">
-                Nome Completo
+                Nome e Sobrenome
               </div>
               <q-input
                 v-model="registerFullname"
                 type="text"
-                color="white"
-                inverted
+                class="q-mt-sm bg-white"
+                input-class=" text-black"
+                style="border-radius: 4px;"
+                outlined
+                dense
+                dark
                 placeholder="Nome"
-                class="text-black"
+                color="primary"
               />
               <div class="text-white q-pt-sm" style="text-align: left;">
                 Email
@@ -70,22 +90,39 @@
               <q-input
                 v-model="registerEmail"
                 type="text"
-                color="white"
-                inverted
+                class="q-mt-sm bg-white"
+                input-class=" text-black"
+                style="border-radius: 4px;"
+                outlined
+                dense
+                dark
                 placeholder="Email"
-                class="text-black"
+                color="primary"
               />
               <div class="text-white q-pt-sm" style="text-align: left;">
                 Senha
               </div>
               <q-input
                 v-model="registerPassword"
-                type="password"
-                color="white"
-                inverted
-                placeholder="Email"
-                class="text-black"
-              />
+                :type="isPwdB ? 'password' : 'text'"
+                color="primary"
+                class="q-mt-sm bg-white"
+                input-class=" text-black"
+                style="border-radius: 4px;"
+                outlined
+                dense
+                dark
+                placeholder="Senha"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwdB ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    color="orange-3"
+                    @click="isPwdB = !isPwdB"
+                  />
+                </template>
+              </q-input>
               <q-btn
                 class=" q-mt-md full-width"
                 color="red-8"
@@ -103,8 +140,8 @@
                 @click="registerModel = false"
               />
             </div>
-          </q-modal-layout>
-        </q-modal>
+          </div>
+        </q-dialog>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -124,6 +161,8 @@ export default {
     return {
       email: '',
       password: '',
+      isPwd: true,
+      isPwdB: true,
       orientation: '',
       registerFullname: '',
       registerEmail: '',
@@ -166,11 +205,23 @@ export default {
     },
 
     register (){
-      firebase.auth().createUserWithEmailAndPassword(this.registerEmail, this.registerPassword).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-      })
+      let displayName = this.registerFullname
+      firebase.auth().createUserWithEmailAndPassword(this.registerEmail, this.registerPassword).then(function(user) {
+
+        user.user.updateProfile({
+            displayName: displayName
+        }).then(function() {
+            // Update successful.
+        }, function(error) {
+            // An error happened.
+            console.log('error: ' + error);
+        });
+      }).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorCode,errorMessage);
+        })
     }
 
   }
